@@ -1,0 +1,7 @@
+<ul>
+    @for (route of routes; track route.path) {
+    <li>
+        <a [routerLink]="route.path">{{ route.label }}</a>
+    </li>
+    }
+</ul>

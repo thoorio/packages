@@ -1,0 +1,8 @@
+<div>
+    <button (click)="increment()">Increment</button>
+    <button (click)="decrement()">Decrement</button>
+    <div>Count: {{ state.counter() }}</div>
+    <div>Whole state: {{ state.values() | json }}</div>
+    <button (click)="multiPatch()">Multi patch</button>
+    <button (click)="reset()">Reset state</button>
+</div>

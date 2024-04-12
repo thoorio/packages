@@ -63,7 +63,7 @@ export class StatePageState {
         state.patch((values) => {
             return {
                 counter: values.counter + 1,
-                user: new User({ name: `${this.counter()! + 1} Thoor` }),
+                user: new User({ name: `${values.counter + 1} Thoor` }),
             };
         });
     }

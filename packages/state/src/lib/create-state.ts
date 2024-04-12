@@ -2,9 +2,8 @@ import { BehaviorSubject, combineLatest, from } from 'rxjs';
 
 import { handleStorage } from './handle-storage';
 import { getInitialStateValue, getInitialStateValueAsync } from './get-initial-state-value';
-import { patch } from './patch';
 
-import type { CreateStateOptions, CreateStateValues, State } from './types';
+import type { CreateStateOptions, CreateStateValues, PatchDataOrCallback, State } from './types';
 
 export function createState<T>(options: CreateStateOptions<T>, values: CreateStateValues<T>): State<T> {
     const state: any = {
@@ -13,8 +12,25 @@ export function createState<T>(options: CreateStateOptions<T>, values: CreateSta
         // Spread the values object to create a new memory reference in order to avoid mutation.
         values: { ...values },
         values$: undefined,
+        patch: <T>(data: PatchDataOrCallback<T>) => {
+            if (typeof data === 'function') {
+                const vals: any = {};
+
+                for (const key in state.values) {
+                    vals[key] = state.values[key].value;
+                }
+
+                state.patch(data(vals));
+            } else {
+                for (const key in data) {
+                    if (Object(state.values).hasOwnProperty(key)) {
+                        state.values[key].next(data[key]!);
+                    }
+                }
+            }
+        },
         reset: () => {
-            patch(state, values);
+            state.patch(values);
         },
     };
     const storageIsAsync = options.storage?.strategy && options.storage.strategy.getItem(options.key) instanceof Promise;

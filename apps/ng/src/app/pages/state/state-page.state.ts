@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { createStateFactory, patch } from '@thoorio/state';
+import { createStateFactory } from '@thoorio/state';
 
 import { storageStrategy } from './storage.strategy';
 
@@ -53,9 +53,18 @@ export class StatePageState {
     }
 
     multiPatch() {
-        patch(state, {
-            counter: this.counter()! + 1,
+        state.patch({
+            counter: state.values.counter.value + 1,
             user: new User({ name: `${this.counter()! + 1} Thoor` }),
+        });
+    }
+
+    multiPatchWithCallback() {
+        state.patch((values) => {
+            return {
+                counter: values.counter + 1,
+                user: new User({ name: `${this.counter()! + 1} Thoor` }),
+            };
         });
     }
 

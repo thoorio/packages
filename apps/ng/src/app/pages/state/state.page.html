@@ -4,5 +4,6 @@
     <div>Count: {{ state.counter() }}</div>
     <div>Whole state: {{ state.values() | json }}</div>
     <button (click)="multiPatch()">Multi patch</button>
+    <button (click)="multiPatchWithCallback()">Multi patch with callback</button>
     <button (click)="reset()">Reset state</button>
 </div>

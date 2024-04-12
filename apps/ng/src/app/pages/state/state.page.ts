@@ -23,6 +23,10 @@ export class StatePage {
         this.state.multiPatch();
     }
 
+    multiPatchWithCallback(): void {
+        this.state.multiPatchWithCallback();
+    }
+
     reset() {
         this.state.reset();
     }

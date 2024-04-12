@@ -31,11 +31,14 @@ export interface CreateStateFactoryOptions {
     };
 }
 
+export type PatchDataOrCallback<T> = Partial<T> | ((values: { [K in keyof T]: T[K] }) => Partial<T>);
+
 export interface State<T> {
     key: string;
     initialized$: BehaviorSubject<boolean>;
     values: { [K in keyof T]: BehaviorSubject<T[K]> };
     values$: Observable<T>;
+    patch(dataOrPatchCallback: PatchDataOrCallback<T>): void;
     reset: () => void;
 }
 
